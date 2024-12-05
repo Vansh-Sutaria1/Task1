@@ -1,18 +1,34 @@
 import React, { useState } from 'react'; 
-import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); 
 
-  const handleLogin = () => {
-    if (username === "user" && password === "password") {
-      // navigation.navigate("Home"); 
-      navigation.navigate("Main", { screen: "Home" });
+  const handleLogin = async () => {
 
-    } else {
-      alert("Invalid credentials"); 
+    setLoading(true);
+
+    try {
+      if (username === "user" && password === "password") {
+        const authToken = 'authToken';
+        await AsyncStorage.setItem('authToken', authToken);
+        Alert.alert('Login successful', 'You are now logged in!');
+        navigation.navigate("Main", { screen: "Home" });
+      } 
+      else {
+        Alert.alert("Invalid credentials"); 
+      }
     }
+    catch {
+      Alert.alert("Please try again.")
+    }
+    finally {
+      setLoading(false);
+    }
+    
   };
 
   return (

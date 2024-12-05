@@ -1,15 +1,41 @@
-import React from "react";
-import { View, Button, StyleSheet } from "react-native";
+
+import React from 'react';
+import {View, Button} from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.navbar}> 
-        <Button title="View Graphs" onPress={() => navigation.navigate("Main", { screen: "Graphs" })} />
-        <Button title="Settings" onPress={() => alert("Settings Pressed")} />
-      </View>   
-    </View>
-  );
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+
+    if (loading) 
+        {
+        return (
+            <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+        }  
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.navbar}> 
+                <Button title="Settings" onPress={() => alert("Settings Pressed")} />
+                <Button 
+                    title="Logout" 
+                    onPress={async () => { 
+                        useEffect(() => {
+                            checkAuthentication();
+                            const checkAuthentication = async () => {
+                            setIsAuthenticated(await checkLogin());
+                            setLoading(false);
+                            };
+                        }, []);
+                    }}
+                />
+                <Button title="View Graphs" onPress={() => navigation.navigate("Main", { screen: "Graphs" })} />
+                </View>   
+            </View>
+        );
 };
 
 const styles = StyleSheet.create({
