@@ -1,7 +1,7 @@
+// GraphScreen.jsx
 import React from 'react'
-import {View, StyleSheet, Dimensions, Text, ScrollView, ActivityIndicator} from 'react-native'
+import {View, StyleSheet, Dimensions, Text, ScrollView} from 'react-native'
 import { LineChart, PieChart } from 'react-native-chart-kit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -39,93 +39,63 @@ const chartConfig = {
       stroke: "#ffa726",
     },
 };
-  
-const checkAuthToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem('authToken'); 
-      return token !== null;
-    //   What happens if token not found?
-    } catch (error) {
-      console.error("Error retrieving token from AsyncStorage:", error);
-      return false; 
-    }
-};
 
 const GraphScreen = () => {
-    
-    const [isAuthenticated, setIsAuthenticated] = useState(null);
+    return (
+    <ScrollView style={styles.container}>
 
-    const validateToken = async () => {
-        const isValid = await checkAuthToken(); 
-        setIsAuthenticated(isValid); 
-    };
+        <View style={styles.graphContainer}>
+            <Text style={styles.heading}>Graph 1: Monthly Data 1</Text>
+            <LineChart
+            data={data}
+            width={Dimensions.get('window').width - 32} // Adjusting width for responsiveness
+            height={220}
+            chartConfig={chartConfig}
+            bezier
+            style={styles.chartStyle}
+            />
+        </View>
 
-    useEffect(() => {     
-        validateToken();
-    }, []);  
+        <View style={styles.graphContainer}>
+            <Text style={styles.heading}>Pie Chart</Text>
+                <PieChart
+                data={pieData}
+                width={Dimensions.get('window').width - 16}
+                height={220}
+                chartConfig={chartConfig}
+                accessor="population"
+                backgroundColor="transparent"
+                style={styles.chartStyle}
+                />
+        </View>
 
-    if (isAuthenticated === null) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
-    }
+        <View style={styles.graphContainer}>
+            <Text style={styles.heading}>Graph 3: Monthly Data 3</Text>
+            <LineChart
+            data={data}
+            width={Dimensions.get('window').width - 32}
+            height={220}
+            chartConfig={chartConfig}
+            bezier
+            style={styles.chartStyle}
+            />
+        </View>
 
-    if(isAuthenticated) {
-        return (
-            <ScrollView style={styles.container}>
-    
-                <View style={styles.graphContainer}>
-                    <Text style={styles.heading}>Graph 1: Monthly Data 1</Text>
-                    <LineChart
-                    data={data}
-                    width={Dimensions.get('window').width - 32} // Adjusting width for responsiveness
-                    height={220}
-                    chartConfig={chartConfig}
-                    bezier
-                    style={styles.chartStyle}
-                    />
-                </View>
-    
-                <View style={styles.graphContainer}>
-                    <Text style={styles.title}>Pie Chart</Text>
-                        <PieChart
-                        data={pieData}
-                        width={Dimensions.get('window').width - 16}
-                        height={220}
-                        chartConfig={chartConfig}
-                        accessor="population"
-                        backgroundColor="transparent"
-                        style={styles.chartStyle}
-                        />
-                </View>
-    
-                <View style={styles.graphContainer}>
-                    <Text style={styles.heading}>Graph 3: Monthly Data 3</Text>
-                    <LineChart
-                    data={data}
-                    width={Dimensions.get('window').width - 32}
-                    height={220}
-                    chartConfig={chartConfig}
-                    bezier
-                    style={styles.chartStyle}
-                    />
-                </View>
-    
-                <View style={styles.graphContainer}>
-                    <Text style={styles.heading}>Graph 4: Monthly Data 4</Text>
-                    <LineChart
-                    data={data}
-                    width={Dimensions.get('window').width - 32}
-                    height={220}
-                    chartConfig={chartConfig}
-                    bezier
-                    style={styles.chartStyle}
-                    />
-                </View>
-            </ScrollView>
-        )
-    }
-    }
-    
-
+        <View style={styles.graphContainer}>
+            <Text style={styles.heading}>Graph 4: Monthly Data 4</Text>
+            <LineChart
+            data={data}
+            width={Dimensions.get('window').width - 32}
+            height={220}
+            chartConfig={chartConfig}
+            bezier
+            style={styles.chartStyle}
+            />
+        </View>
+        
+    </ScrollView>
+    )  
+}
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -137,7 +107,7 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
         marginBottom: 20, 
       },
-    title: {
+    heading: {
       fontSize: 24,
       marginBottom: 10,
     },

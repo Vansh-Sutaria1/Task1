@@ -1,5 +1,15 @@
+// import 'react-native-get-random-values'; // Ensure this is included
+// import 'react-native-randombytes'; // For random bytes generation
+// import 'react-native-crypto'; // For crypto
+// import 'react-native-buffer'; // For Buffer support
+// import 'util'; // For util functions like inherits
+// import 'inherits'; // For inherits functionality
+
+
+// App.jsx
 import * as React from 'react';
-import { ActivityIndicator } from 'react-native';
+import {useState, useEffect} from 'react';
+import { View, ActivityIndicator } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -7,14 +17,14 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import LoginScreen from './screens/LoginScreen.jsx';
 import HomeScreen from './screens/HomeScreen.jsx';
 import GraphScreen from './screens/GraphScreen.jsx';
-import {checkLogin} from './SessionManagement.js'
+import { checkLogin } from './SessionManagement.jsx';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 
 const DrawerNavigator = () => (
-  <Drawer.Navigator>
+  <Drawer.Navigator initialRouteName="Home">
     <Drawer.Screen name="Home" component={HomeScreen} />
     <Drawer.Screen name="Graphs" component={GraphScreen} />
   </Drawer.Navigator>
@@ -22,38 +32,47 @@ const DrawerNavigator = () => (
 
 
 const MyStack = () => { 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const checkAuthentication = async () => {
-      setIsAuthenticated(await checkLogin());
+    const checkUserLogin = async () => {
+      const isLoggedIn = await checkLogin();
+      setIsLoggedIn(isLoggedIn);
       setLoading(false);
     };
-    checkAuthentication();
+
+    checkUserLogin();
   }, []);
 
-  if (loading) 
-    {
-      
-    }
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-      {isAuthenticated ? (
-          <Stack.Screen
-            name="Main"
-            component={DrawerNavigator}
-            options={{ headerShown: false }} 
-          />
-        ) : (
-          <Stack.Screen name="Login" component={LoginScreen} />
-        )}
+      <Stack.Navigator initialRouteName={isLoggedIn ? "Main" : "Login"}>
+        {/* <Stack.Screen name="Login" component={LoginScreen} />  */}
+       
+        <Stack.Screen name="Main" component={DrawerNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+          
       </Stack.Navigator>
     </NavigationContainer>
   )
 }
+
+const styles = {
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+};
 
 export default MyStack;
 

@@ -1,6 +1,8 @@
+//LoginScreen.jsx
 import React, { useState } from 'react'; 
-import { View, TextInput, Button, StyleSheet, Image, ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, TextInput, Button, StyleSheet, Image, ActivityIndicator, Alert } from 'react-native';
+// import { verifyCredentials } from '../SessionManagement.jsx';
+import {verifyCredentials} from '../client.js;'
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -8,35 +10,37 @@ const LoginScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false); 
 
   const handleLogin = async () => {
-
     setLoading(true);
-
     try {
-      if (username === "user" && password === "password") {
-        const authToken = 'authToken';
-        await AsyncStorage.setItem('authToken', authToken);
+      const isValid = await verifyCredentials(username, password);
+      if (isValid) {
         Alert.alert('Login successful', 'You are now logged in!');
-        navigation.navigate("Main", { screen: "Home" });
-      } 
-      else {
-        Alert.alert("Invalid credentials"); 
+        // navigation.navigate('Main', { screen: 'Home' }); 
+        navigation.navigate("Main");
+        // navigation.navigate("Home");
+      } else {
+        Alert.alert('Invalid credentials', 'Please check your username and password.');
       }
+    } catch (error) {
+      Alert.alert('Error', 'An unexpected error occurred. Please try again.');
+      console.error(error);
+    } finally {
+      setLoading(false); 
     }
-    catch {
-      Alert.alert("Please try again.")
-    }
-    finally {
-      setLoading(false);
-    }
-    
   };
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('../assets/favicon.png')} />
-      <TextInput style={styles.input} placeholder="Username" value={username} onChangeText={setUsername} />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
-      <Button title="Login" onPress={handleLogin} /> 
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <>
+          <Image style={styles.logo} source={require('../assets/favicon.png')} />
+          <TextInput style={styles.input} placeholder="Username" value={username} onChangeText={setUsername} />
+          <TextInput style={styles.input} placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
+          <Button title="Login" onPress={handleLogin} />
+        </>
+      )}
     </View>
   );
 };
@@ -61,4 +65,3 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
-
