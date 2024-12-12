@@ -2,7 +2,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { View, Button, StyleSheet, ActivityIndicator, Alert } from 'react-native';
-import { logout } from '../SessionManagement.jsx';
+import { logout } from '../SessionManagement.js';
 
 const HomeScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);

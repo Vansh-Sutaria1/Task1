@@ -156,36 +156,41 @@
 //   return `${base64Header}.${base64Payload}.${signature}`;
 // };
 
+// // Verify credentials in the backend
+// export const verifyCredentials = async (username, password) => {
+//   const validUsername = 'user';
+//   const validPassword = 'password';
+
+//   if (username === validUsername && password === validPassword) {
+//     const payload = {
+//       username,
+//       // exp: Math.floor(Date.now() / 1000) + 60 * 60, // Token expires in 1 hour
+//       exp: Math.floor(Date.now() / 1000) + 60, // Token expires in 1 minute
+//     };
+
+//     const token = generateToken(payload);
+
+//     try {
+//       await AsyncStorage.setItem('jwtToken', token); 
+//       return true;
+//     } catch (error) {
+//       console.error('Error storing token:', error);
+//       return false;
+//     }
+//   }
+
+//   return false;
+// };
+
+// SessionManagement.js
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import jwt from 'jsonwebtoken';
+// import jwt_decode from 'jwt-decode';
+
 // Decode a JWT token without verifying
 const decodeToken = (token) => {
   const [header, payload] = token.split('.');
   return JSON.parse(decode(payload)); // Decode the payload with base-64
-};
-
-// Verify credentials in the backend
-export const verifyCredentials = async (username, password) => {
-  const validUsername = 'user';
-  const validPassword = 'password';
-
-  if (username === validUsername && password === validPassword) {
-    const payload = {
-      username,
-      // exp: Math.floor(Date.now() / 1000) + 60 * 60, // Token expires in 1 hour
-      exp: Math.floor(Date.now() / 1000) + 60, // Token expires in 1 minute
-    };
-
-    const token = generateToken(payload);
-
-    try {
-      await AsyncStorage.setItem('jwtToken', token); 
-      return true;
-    } catch (error) {
-      console.error('Error storing token:', error);
-      return false;
-    }
-  }
-
-  return false;
 };
 
 // Check login status token storage in the frontend

@@ -17,7 +17,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import LoginScreen from './screens/LoginScreen.jsx';
 import HomeScreen from './screens/HomeScreen.jsx';
 import GraphScreen from './screens/GraphScreen.jsx';
-import { checkLogin } from './SessionManagement.jsx';
+import UploadFileScreen from './screens/UploadFileScreen.jsx'
+import { checkLogin } from './SessionManagement.js';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -27,6 +28,7 @@ const DrawerNavigator = () => (
   <Drawer.Navigator initialRouteName="Home">
     <Drawer.Screen name="Home" component={HomeScreen} />
     <Drawer.Screen name="Graphs" component={GraphScreen} />
+    <Drawer.Screen name="Upload Files" component={UploadFileScreen} />
   </Drawer.Navigator>
 );
 

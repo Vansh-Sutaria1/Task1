@@ -1,8 +1,7 @@
 //LoginScreen.jsx
 import React, { useState } from 'react'; 
 import { View, TextInput, Button, StyleSheet, Image, ActivityIndicator, Alert } from 'react-native';
-// import { verifyCredentials } from '../SessionManagement.jsx';
-import {verifyCredentials} from '../client.js;'
+import {loginn} from '../client.js';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -12,7 +11,7 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const isValid = await verifyCredentials(username, password);
+      const isValid = await loginn(username, password);
       if (isValid) {
         Alert.alert('Login successful', 'You are now logged in!');
         // navigation.navigate('Main', { screen: 'Home' }); 
