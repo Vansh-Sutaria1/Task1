@@ -18,6 +18,8 @@ import LoginScreen from './screens/LoginScreen.jsx';
 import HomeScreen from './screens/HomeScreen.jsx';
 import GraphScreen from './screens/GraphScreen.jsx';
 import UploadFileScreen from './screens/UploadFileScreen.jsx'
+import CameraScreen from './screens/CameraScreen.jsx';
+import WSChat from './screens/WSChat.jsx';
 import { checkLogin } from './SessionManagement.js';
 
 const Stack = createNativeStackNavigator();
@@ -29,6 +31,8 @@ const DrawerNavigator = () => (
     <Drawer.Screen name="Home" component={HomeScreen} />
     <Drawer.Screen name="Graphs" component={GraphScreen} />
     <Drawer.Screen name="Upload Files" component={UploadFileScreen} />
+    <Drawer.Screen name="Camera" component={CameraScreen} />
+    <Drawer.Screen name="Chat" component={WSChat} />
   </Drawer.Navigator>
 );
 
