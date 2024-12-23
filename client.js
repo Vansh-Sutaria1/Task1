@@ -2,8 +2,8 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// const baseUrl = "http://127.0.0.1:8000/api";
-const baseUrl = "http://10.0.2.2:8000/api";
+const baseUrl = "http://127.0.0.1:8000/api";
+// const baseUrl = "http://10.0.2.2:8000/api";
 
 
 // with axios instance
@@ -16,7 +16,9 @@ export const loginn = async (username, password) => {
         const response = await axios.post(`${baseUrl}/user/login`, { username, password });
         const generated_token = response.data.access_token; 
         if (generated_token) {
-            await AsyncStorage.setItem('authToken', generated_token);
+            // await AsyncStorage.setItem('authToken', generated_token);
+            await AsyncStorage.setItem('jwtToken', generated_token); // Match key with `checkLogin`
+
             return true;
         }
         return false;

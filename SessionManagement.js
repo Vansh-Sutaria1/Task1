@@ -184,8 +184,6 @@
 
 // SessionManagement.js
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import jwt from 'jsonwebtoken';
-// import jwt_decode from 'jwt-decode';
 
 // Decode a JWT token without verifying
 const decodeToken = (token) => {

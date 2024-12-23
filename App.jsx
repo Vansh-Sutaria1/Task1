@@ -1,11 +1,3 @@
-// import 'react-native-get-random-values'; // Ensure this is included
-// import 'react-native-randombytes'; // For random bytes generation
-// import 'react-native-crypto'; // For crypto
-// import 'react-native-buffer'; // For Buffer support
-// import 'util'; // For util functions like inherits
-// import 'inherits'; // For inherits functionality
-
-
 // App.jsx
 import * as React from 'react';
 import {useState, useEffect} from 'react';
@@ -20,6 +12,7 @@ import GraphScreen from './screens/GraphScreen.jsx';
 import UploadFileScreen from './screens/UploadFileScreen.jsx'
 import CameraScreen from './screens/CameraScreen.jsx';
 import WSChat from './screens/WSChat.jsx';
+import VideoStreaming from './screens/VideoStreaming.jsx';
 import { checkLogin } from './SessionManagement.js';
 
 const Stack = createNativeStackNavigator();
@@ -33,6 +26,7 @@ const DrawerNavigator = () => (
     <Drawer.Screen name="Upload Files" component={UploadFileScreen} />
     <Drawer.Screen name="Camera" component={CameraScreen} />
     <Drawer.Screen name="Chat" component={WSChat} />
+    <Drawer.Screen name="Video_Streaming" component={VideoStreaming} />
   </Drawer.Navigator>
 );
 

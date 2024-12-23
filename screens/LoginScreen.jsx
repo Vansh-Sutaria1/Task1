@@ -14,9 +14,7 @@ const LoginScreen = ({ navigation }) => {
       const isValid = await loginn(username, password);
       if (isValid) {
         Alert.alert('Login successful', 'You are now logged in!');
-        // navigation.navigate('Main', { screen: 'Home' }); 
         navigation.navigate("Main");
-        // navigation.navigate("Home");
       } else {
         Alert.alert('Invalid credentials', 'Please check your username and password.');
       }
