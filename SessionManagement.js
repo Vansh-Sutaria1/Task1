@@ -182,13 +182,152 @@
 //   return false;
 // };
 
-// SessionManagement.js
+// // SessionManagement.js
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// // import jwt from 'jsonwebtoken';
+// // import jwt_decode from 'jwt-decode';
+
+// // Decode a JWT token without verifying
+// const decodeToken = (token) => {
+//   const [header, payload] = token.split('.');
+//   return JSON.parse(decode(payload)); // Decode the payload with base-64
+// };
+
+// // Check login status token storage in the frontend
+// export const checkLogin = async () => {
+//   try {
+//     const token = await AsyncStorage.getItem('jwtToken');
+//     if (!token) return false;
+
+//     const decodedToken = decodeToken(token);
+
+//     if (decodedToken.exp < Math.floor(Date.now() / 1000)) {
+//       await AsyncStorage.removeItem('jwtToken');
+//       return false;
+//     }
+
+//     return true;
+//   } catch (error) {
+//     console.error('Error validating token:', error);
+//     return false;
+//   }
+// };
+
+// // Logout
+// export const logout = async () => {
+//   try {
+//     await AsyncStorage.removeItem('jwtToken');
+//     return true;
+//   } catch (error) {
+//     console.error('Error during logout:', error);
+//     return false;
+//   }
+// };
+
+// client.js will handle all api calls
+
+
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// // Base64 decoding function
+// const base64Decode = (str) => {
+//   try {
+//     // Add padding if needed
+//     str = str.replace(/-/g, '+').replace(/_/g, '/');
+//     while (str.length % 4) {
+//       str += '=';
+//     }
+    
+//     // Decode base64 string
+//     return JSON.parse(
+//       decodeURIComponent(
+//         Array.prototype.map
+//           .call(atob(str), (c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+//           .join('')
+//       )
+//     );
+//   } catch (error) {
+//     console.error('Error decoding base64:', error);
+//     return null;
+//   }
+// };
+
+// // Decode a JWT token without external libraries
+// const decodeToken = (token) => {
+//   try {
+//     const [, payload] = token.split('.');
+//     return base64Decode(payload);
+//   } catch (error) {
+//     console.error('Error decoding token:', error);
+//     return null;
+//   }
+// };
+
+// // Check login status token storage in the frontend
+// export const checkLogin = async () => {
+//   try {
+//     const token = await AsyncStorage.getItem('jwtToken');
+//     if (!token) return false;
+
+//     const decodedToken = decodeToken(token);
+//     if (!decodedToken) return false;
+
+//     // Check if token is expired
+//     if (decodedToken.exp < Math.floor(Date.now() / 1000)) {
+//       await AsyncStorage.removeItem('jwtToken');
+//       return false;
+//     }
+
+//     return true;
+//   } catch (error) {
+//     console.error('Error validating token:', error);
+//     return false;
+//   }
+// };
+
+// // Logout
+// export const logout = async () => {
+//   try {
+//     await AsyncStorage.removeItem('jwtToken');
+//     return true;
+//   } catch (error) {
+//     console.error('Error during logout:', error);
+//     return false;
+//   }
+// };
+
+// export default {
+//   checkLogin,
+//   logout
+// };
+
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Decode a Base64-encoded string
+const base64Decode = (base64) => {
+  try {
+    return decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => `%${c.charCodeAt(0).toString(16).padStart(2, '0')}`)
+        .join('')
+    );
+  } catch (error) {
+    console.error('Error decoding Base64:', error);
+    return null;
+  }
+};
 
 // Decode a JWT token without verifying
 const decodeToken = (token) => {
-  const [header, payload] = token.split('.');
-  return JSON.parse(decode(payload)); // Decode the payload with base-64
+  try {
+    const [, payload] = token.split('.');
+    return JSON.parse(base64Decode(payload));
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return null;
+  }
 };
 
 // Check login status token storage in the frontend
@@ -198,7 +337,9 @@ export const checkLogin = async () => {
     if (!token) return false;
 
     const decodedToken = decodeToken(token);
+    if (!decodedToken) return false;
 
+    // Check if the token has expired
     if (decodedToken.exp < Math.floor(Date.now() / 1000)) {
       await AsyncStorage.removeItem('jwtToken');
       return false;
@@ -221,5 +362,3 @@ export const logout = async () => {
     return false;
   }
 };
-
-// client.js will handle all api calls 

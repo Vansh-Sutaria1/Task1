@@ -10,7 +10,6 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@expo/metro-runtime": "~4.0.0",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/cli": "latest",
     "@react-navigation/drawer": "^6.7.2",
@@ -18,6 +17,7 @@
     "@react-navigation/native-stack": "^6.11.0",
     "axios": "^1.7.9",
     "base-64": "^1.0.0",
+    "buffer": "^6.0.3",
     "crypto-js": "^4.2.0",
     "expo": "~52.0.20",
     "expo-camera": "~16.0.10",
@@ -28,8 +28,6 @@
     "inherits": "^2.0.4",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
-    "lodash": "^4.17.21",
-    "media-library": "^1.2.4",
     "react": "18.3.1",
     "react-native": "0.76.5",
     "react-native-buffer": "^6.0.3",
@@ -54,7 +52,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@react-native-community/cli": "latest"
+    "@eslint/js": "^9.17.0",
+    "@react-native-community/cli": "latest",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.3",
+    "globals": "^15.14.0"
   },
   "private": true
 }

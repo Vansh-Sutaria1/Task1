@@ -142,8 +142,8 @@ const WSChat = () => {
 
   useEffect(() => {
     // Use your actual local IP or appropriate address
-    const websocket = new WebSocket('ws://192.168.1.2:8000/ws/chat');
-    // const websocket = new WebSocket('ws://10.0.2.2:8000/api/ws/chat');
+    // const websocket = new WebSocket('ws://192.168.1.2:8000/api/ws/chat');
+    const websocket = new WebSocket('ws://10.0.2.2:8000/api/ws/chat');
 
     websocket.onopen = () => {
       console.log('WebSocket connection opened');
